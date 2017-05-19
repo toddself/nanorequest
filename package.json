@@ -6,7 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://github.com:toddself/nanorequest"
+  },
+  "bugs": {
+    "url": "https://github.com/toddself/nanorequest/issues"
+  },
+  "homepage": "https://github.com/toddself/nanorequest/#readme",
+  "keywords": [
+    "request",
+    "get",
+    "fetch"
+  ],
   "author": "Todd Kennedy <todd@selfassembled.org>",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "tap": "^10.3.2"
+  }
 }

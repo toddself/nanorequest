@@ -1,53 +1,63 @@
 const http = require('http')
+const https = require('https')
+const url = require('url')
 
-module.exports = function sendRequest (method, path, body, headers, cb) {
-  if (typeof headers === 'function') {
-    cb = headers
-    headers = {}
-  }
-  headers['content-type'] = 'application/json'
-  const opts = {
-    hostname: 'localhost',
-    port: 3000,
-    path: path,
-    method: method,
-    headers
+function json (obj) {
+  return obj.header && obj.header['content-type'] === 'application/json'
+}
+
+module.exports = function sendRequest (opts, cb) {
+  if (typeof opts.url === 'string') {
+    Object.assign(opts, url.parse(opts.url))
+    opts.url = void 0
   }
 
-  if (typeof body !== 'string') {
-    body = JSON.stringify(body)
+  if (json(opts) && typeof body !== 'string') {
+    opts.body = JSON.stringify(opts.body)
   }
 
-  const req = http.request(opts, (res) => {
+  let lib = http
+  if (opts.protocol === 'https') {
+    lib = https
+  }
+
+  const req = lib.request(opts, response)
+  req
+    .on('error', handleError)
+    .end(opts.body ? opts.body : null)
+
+  function response (res) {
     const body = []
+    res
+      .on('error', handleError)
+      .on('data', (chk) => body.push(chk.toString('utf8')))
+      .on('end', () => end(res, body))
+  }
+
+  function end (res, body) {
+    let content = body.join('')
     let err = null
+    if (json(res)) {
+      try {
+        content = JSON.parse(content)
+      } catch (err) {
+        return handleError(err, res)
+      }
+    }
 
     if (res.statusCode > 299) {
-      err = new Error(`Server returned ${res.statusCode}`)
+      err = new Error(`${res.statusCode}: ${res.statusText || 'error'}`)
     }
 
-    if (res.statusCode === 204) {
-      return cb(null, res, '')
+    cb(err, res, content)
+  }
+
+  function handleError (err, res) {
+    if (!(err instanceof Error)) {
+      err = new Error(err)
     }
-
-    res
-      .on('error', (err) => {
-        cb(err, {statusCode: null}, {message: 'response error'})
-      })
-      .on('data', (chk) => body.push(chk.toString('utf8')))
-      .on('end', () => {
-        let content
-        try {
-          content = JSON.parse(body.join(''))
-        } catch (e) {
-          return cb(e, res, content)
-        }
-
-        cb(err, res, content)
-      })
-  })
-  .on('error', (err) => {
-    cb(err, {statusCode: null}, {message: 'request error'})
-  })
-  req.end(body)
+    res = res || {statusCode: null}
+    cb(err, res, err.message)
+  }
 }
+
