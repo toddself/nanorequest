@@ -1,0 +1,12 @@
+{
+  "name": "nanorequest",
+  "version": "0.0.0",
+  "description": "Sometimes you just want to make a small request with a callback",
+  "main": "nanorequest.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Todd Kennedy <todd@selfassembled.org>",
+  "license": "Apache-2.0"
+}

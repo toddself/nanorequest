@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.git
+Chrome*
+*swp
+.nyc_output
+.sauce-cred
+.zuulrc
+coverage.json
