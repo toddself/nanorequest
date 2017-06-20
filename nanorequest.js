@@ -7,11 +7,11 @@ var parse = require('fast-json-parse')
 var concat = require('concat-stream')
 
 function json (obj) {
-  return obj.headers && obj.headers['content-type'].indexOf('application/json') > -1
+  return obj.headers && (obj.headers['content-type'] || '').indexOf('application/json') > -1
 }
 
 function text (obj) {
-  return obj.headers && obj.headers['content-type'].indexOf('text') > -1
+  return obj.headers && (obj.headers['content-type'] || '').indexOf('text') > -1
 }
 
 module.exports = function sendRequest (opts, cb) {
@@ -22,7 +22,7 @@ module.exports = function sendRequest (opts, cb) {
   }
 
   if (opts.body) {
-    if (json(opts) && typeof body !== 'string') {
+    if (json(opts) && typeof opts.body !== 'string') {
       reqBody = stringify(opts.body)
     } else {
       reqBody = opts.body
