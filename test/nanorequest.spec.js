@@ -164,7 +164,7 @@ test('bad json,', (t) => {
   }
   req(opts, (err, res, body) => {
     t.ok(err, 'got error')
-    t.equal(body, 'Unexpected token m in JSON at position 1', 'bad parsing')
+    t.ok(body.indexOf('Unexpected token m') > -1, 'bad parsing')
     t.end()
   })
 })
