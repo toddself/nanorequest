@@ -49,7 +49,7 @@ const req = request(opts, (err, res, body) => {
 
 ### API
 
-#### `nanorequest(opts:object(key:string), cb(err:Error, res:[Response](https://nodejs.org/api/http.html#http_class_http_serverresponse), body:(mixed)):function):[Request](https://nodejs.org/api/http.html#http_class_http_clientrequest)`
+#### nanorequest(opts:object(key:string), cb(err:Error, res:[Response](https://nodejs.org/api/http.html#http_class_http_serverresponse), body:(mixed)):function):[Request](https://nodejs.org/api/http.html#http_class_http_clientrequest)
 The `opts` object matches the options used in [`http.request`](https://nodejs.org/api/http.html#http_http_request_options_callback), but accepts an optional `url` field.
 * `opts.url:string` - the URL you want to request. Will be parsed with [`url.parse`](https://nodejs.org/api/url.html#url_url_parse_urlstring_parsequerystring_slashesdenotehost).
 
