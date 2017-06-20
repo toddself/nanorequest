@@ -149,7 +149,7 @@ test('json-error,', (t) => {
   }
   req(opts, (err, res, body) => {
     t.ok(err, 'got error')
-    t.equal(err.message, '400: error', 'error')
+    t.equal(err.message, '400: Bad Request', 'Bad Request')
     t.equal(res.statusCode, 400, 'bad content')
     t.ok(typeof body === 'object', 'json response parsed')
     t.equal(body.message, 'not good', 'not good')
@@ -176,7 +176,7 @@ test('error,', (t) => {
   }
   req(opts, (err, res, body) => {
     t.ok(err, 'got error')
-    t.equal(err.message, '404: error', 'error')
+    t.equal(err.message, '404: Not Found', 'Not Found')
     t.equal(res.statusCode, 404, 'not found')
     t.ok(Buffer.isBuffer(body), 'buffer')
     t.equal(body.toString('utf8'), 'Not found', 'not found')

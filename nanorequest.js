@@ -27,6 +27,11 @@ module.exports = function sendRequest (opts, cb) {
     } else {
       reqBody = opts.body
     }
+
+    if (!opts.headers) {
+      opts.headers = {}
+    }
+    opts.headers['content-length'] = reqBody.length
   }
 
   var lib = opts.protocol === 'https:' ? https : http
@@ -60,7 +65,7 @@ module.exports = function sendRequest (opts, cb) {
     }
 
     if (res.statusCode > 299) {
-      err = new Error(`${res.statusCode}: ${res.statusText || 'error'}`)
+      err = new Error(`${res.statusCode}: ${res.statusMessage || 'error'}`)
     }
 
     cb(err, res, buf)
