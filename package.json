@@ -1,6 +1,6 @@
 {
   "name": "nanorequest",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sometimes you just want to make a small request with a callback",
   "main": "nanorequest.js",
   "scripts": {
