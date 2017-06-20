@@ -1,14 +1,14 @@
 {
   "name": "nanorequest",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "description": "Sometimes you just want to make a small request with a callback",
   "main": "nanorequest.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "git+ssh://github.com:toddself/nanorequest"
+    "type": "https",
+    "url": "https://github.com/toddself/nanorequest"
   },
   "bugs": {
     "url": "https://github.com/toddself/nanorequest/issues"
@@ -17,11 +17,21 @@
   "keywords": [
     "request",
     "get",
-    "fetch"
+    "fetch",
+    "http",
+    "https"
   ],
   "author": "Todd Kennedy <todd@selfassembled.org>",
   "license": "Apache-2.0",
   "devDependencies": {
     "tap": "^10.3.2"
+  },
+  "dependencies": {
+    "concat-stream": "^1.6.0",
+    "fast-json-parse": "^1.0.2",
+    "fast-safe-stringify": "^1.2.0"
+  },
+  "engines": {
+    "node": "^4.0.0"
   }
 }

@@ -1,55 +1,69 @@
-const http = require('http')
-const https = require('https')
-const url = require('url')
+var http = require('http')
+var https = require('https')
+var url = require('url')
+
+var stringify = require('fast-safe-stringify')
+var parse = require('fast-json-parse')
+var concat = require('concat-stream')
 
 function json (obj) {
-  return obj.header && obj.header['content-type'] === 'application/json'
+  return obj.headers && obj.headers['content-type'].indexOf('application/json') > -1
+}
+
+function text (obj) {
+  return obj.headers && obj.headers['content-type'].indexOf('text') > -1
 }
 
 module.exports = function sendRequest (opts, cb) {
+  var reqBody = null
   if (typeof opts.url === 'string') {
     Object.assign(opts, url.parse(opts.url))
     opts.url = void 0
   }
 
-  if (json(opts) && typeof body !== 'string') {
-    opts.body = JSON.stringify(opts.body)
+  if (opts.body) {
+    if (json(opts) && typeof body !== 'string') {
+      reqBody = stringify(opts.body)
+    } else {
+      reqBody = opts.body
+    }
   }
 
-  let lib = http
-  if (opts.protocol === 'https') {
-    lib = https
-  }
-
-  const req = lib.request(opts, response)
+  var lib = opts.protocol === 'https:' ? https : http
+  var req = lib.request(opts, response)
   req
     .on('error', handleError)
-    .end(opts.body ? opts.body : null)
+    .end(reqBody)
+
+  return req
 
   function response (res) {
-    const body = []
+    var sink = concat(end.bind(end, res))
     res
       .on('error', handleError)
-      .on('data', (chk) => body.push(chk.toString('utf8')))
-      .on('end', () => end(res, body))
+      .pipe(sink)
   }
 
-  function end (res, body) {
-    let content = body.join('')
-    let err = null
+  function end (res, buf) {
+    var err = null
+
     if (json(res)) {
-      try {
-        content = JSON.parse(content)
-      } catch (err) {
-        return handleError(err, res)
+      var result = parse(buf.toString('utf8'))
+      if (result.err) {
+        return handleError(result.err, res)
       }
+      buf = result.value
+    }
+
+    if (text(res)) {
+      buf = buf.toString('utf8')
     }
 
     if (res.statusCode > 299) {
       err = new Error(`${res.statusCode}: ${res.statusText || 'error'}`)
     }
 
-    cb(err, res, content)
+    cb(err, res, buf)
   }
 
   function handleError (err, res) {
