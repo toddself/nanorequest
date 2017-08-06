@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "Sometimes you just want to make a small request with a callback",
   "main": "nanorequest.js",
+  "typings": "nanorequest.d.ts",
   "scripts": {
     "test": "tap test/*.spec.js",
     "coverage": "tap test/*.spec.js --cov --coverage-report=lcov"
@@ -33,6 +34,7 @@
     "node": "^4.0.0"
   },
   "devDependencies": {
+    "@types/node": "^8.0.19",
     "tap": "^10.5.0"
   }
 }
