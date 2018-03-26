@@ -28,6 +28,9 @@ const httpServer = http.createServer((req, res) => {
   } else if (req.url === '/bad-json') {
     res.setHeader('content-type', 'application/json')
     res.end('{message": "aseddd}')
+  } else if (req.url === '/byte-me') {
+    res.setHeader('content-type', 'application/json')
+    res.end(`{"emojilength": ${req.headers['content-length']}}`)
   } else {
     res.statusCode = 404
     res.end('Not found')
@@ -165,6 +168,22 @@ test('bad json,', (t) => {
   req(opts, (err, res, body) => {
     t.ok(err, 'got error')
     t.ok(body.indexOf('Unexpected token m') > -1, 'bad parsing')
+    t.end()
+  })
+})
+
+test('byte length,', (t) => {
+  const opts = {
+    method: 'get',
+    url: 'http://localhost:8080/byte-me',
+    body: {emoji: '🐒'},
+    headers: {
+      'content-type': 'application/json'
+    }
+  }
+  req(opts, (err, res, body) => {
+    t.error(err, 'no error')
+    t.equal(body.emojilength, 16, '2 bytes')
     t.end()
   })
 })

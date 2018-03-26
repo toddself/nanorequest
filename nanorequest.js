@@ -31,7 +31,7 @@ module.exports = function sendRequest (opts, cb) {
     if (!opts.headers) {
       opts.headers = {}
     }
-    opts.headers['content-length'] = reqBody.length
+    opts.headers['content-length'] = Buffer.byteLength(reqBody, 'utf8')
   }
 
   var lib = opts.protocol === 'https:' ? https : http
@@ -79,4 +79,3 @@ module.exports = function sendRequest (opts, cb) {
     cb(err, res, err.message)
   }
 }
-
