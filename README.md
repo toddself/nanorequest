@@ -34,6 +34,9 @@ though. If you need something that isn't supported, you're likely looking at the
 wrong library. The idea here to really just wrap the built-in `http.request`
 method so you can use a callback and not deal with all the events crap.
 
+Version 2.0.0 and higher requires node 8. If you want to use node 7 or earlier,
+you can continue to use ^1.0.0.
+
 ## Usage
 ```js
 const request = require('nanorequest')
