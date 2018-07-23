@@ -52,6 +52,27 @@ test('text/plain', (t) => {
   })
 })
 
+test('text/plain (promises)', async (t) => {
+  return new Promise((resolve, reject) => {
+    const opts = {
+      method: 'get',
+      url: 'http://localhost:8080/text'
+    }
+    req(opts)
+      .then(({res, body}) => {
+        t.equal(res.statusCode, 200, '200')
+        t.ok(typeof body === 'string', 'string')
+        t.equal(body, 'this is a test', 'it IS a test')
+        t.end()
+        resolve()
+      })
+      .catch((err) => {
+        t.fail(err, 'errored out')
+        reject(err)
+      })
+  })
+}).catch(test.threw)
+
 test('text/html', (t) => {
   const opts = {
     method: 'get',
@@ -202,6 +223,26 @@ test('error,', (t) => {
     t.end()
   })
 })
+
+test('error,', (t) => {
+  const opts = {
+    method: 'get',
+    url: 'http://localhost:8080/beepboop'
+  }
+  req(opts)
+    .then(() => {
+      t.fail('should not be here')
+    })
+    .catch((err) => {
+      t.ok(err, 'got error')
+      t.equal(err.message, '404: Not Found', 'Not Found')
+      t.equal(err.res.statusCode, 404, 'not found')
+      t.ok(Buffer.isBuffer(err.body), 'buffer')
+      t.equal(err.body.toString('utf8'), 'Not found', 'not found')
+      t.end()
+    })
+})
+
 test('teardown', (t) => {
   httpServer.close()
   t.end()
