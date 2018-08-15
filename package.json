@@ -5,7 +5,7 @@
   "main": "nanorequest.js",
   "typings": "nanorequest.d.ts",
   "scripts": {
-    "test": "tap test/*.spec.js",
+    "test": "standard && tap test/*.spec.js",
     "coverage": "tap test/*.spec.js --cov --coverage-report=lcov"
   },
   "repository": {
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@types/node": "^10.5.2",
+    "standard": "^11.0.1",
     "tap": "^12.0.1"
   }
 }
