@@ -3,7 +3,6 @@ var https = require('https')
 var url = require('url')
 
 var stringify = require('fast-safe-stringify')
-var parse = require('fast-json-parse')
 var concat = require('concat-stream')
 
 function json (obj) {
@@ -67,11 +66,11 @@ module.exports = function sendRequest (opts, cb) {
       var err = null
 
       if (json(res)) {
-        var result = parse(buf.toString('utf8'))
-        if (result.err) {
-          return handleError(result.err, res)
+        try {
+          buf = JSON.parse(buf.toString('utf8'))
+        } catch (err) {
+          return handleError(err, res)
         }
-        buf = result.value
       }
 
       if (text(res)) {
