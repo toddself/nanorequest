@@ -13,7 +13,7 @@ function text (obj) {
   return obj.headers && (obj.headers['content-type'] || '').indexOf('text') > -1
 }
 
-module.exports = function sendRequest (opts, cb) {
+module.exports = function sendRequest (_opts, cb) {
   let _promise = false
   return new Promise((resolve, reject) => {
     if (typeof cb !== 'function') {
@@ -28,6 +28,7 @@ module.exports = function sendRequest (opts, cb) {
       }
     }
 
+    const opts = Object.assign({}, _opts)
     var reqBody = null
     if (typeof opts.url === 'string') {
       Object.assign(opts, url.parse(opts.url))
