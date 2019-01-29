@@ -2,11 +2,14 @@
   "name": "nanorequest",
   "version": "2.0.3",
   "description": "Sometimes you just want to make a small request with a callback",
-  "main": "nanorequest.js",
-  "typings": "nanorequest.d.ts",
+  "main": "dist/nanorequest.js",
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
-    "test": "standard && tap test/*.spec.js",
-    "coverage": "tap test/*.spec.js --cov --coverage-report=lcov"
+    "build": "tsc",
+    "test": "npm run build && tap test/*.spec.js",
+    "coverage": "npm run build && tap test/*.spec.js --cov --coverage-report=lcov"
   },
   "repository": {
     "type": "https",
@@ -25,16 +28,14 @@
   ],
   "author": "Todd Kennedy <todd@selfassembled.org>",
   "license": "Apache-2.0",
-  "dependencies": {
-    "concat-stream": "^1.6.2",
-    "fast-safe-stringify": "^2.0.4"
-  },
+  "dependencies": {},
   "engines": {
     "node": "^8.0.0"
   },
   "devDependencies": {
-    "@types/node": "^10.5.2",
-    "standard": "^11.0.1",
-    "tap": "^12.0.1"
+    "@types/node": "^10.12.19",
+    "concat-stream": "^2.0.0",
+    "tap": "^12.0.1",
+    "typescript": "^3.2.4"
   }
 }
