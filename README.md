@@ -42,6 +42,8 @@ npm install nanorequest
 
 ```js
 const request = require('nanorequest')
+// or!
+import { nanorequest } from 'nanorequest'
 
 const opts = {
   url: 'https://google.com'
