@@ -2,7 +2,7 @@ const test = require('tap').test
 const http = require('http')
 const concat = require('concat-stream')
 
-const req = require('../')
+const req = require('../').nanorequest
 
 const httpServer = http.createServer((req, res) => {
   if (req.url === '/text') {
@@ -36,12 +36,12 @@ const httpServer = http.createServer((req, res) => {
     res.end('Not found')
   }
 })
-httpServer.listen(8080)
+httpServer.listen(9999)
 
 test('text/plain', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/text'
+    url: 'http://localhost:9999/text'
   }
   req(opts, (err, res, body) => {
     t.error(err, 'no errors')
@@ -56,7 +56,7 @@ test('text/plain (promises)', async (t) => {
   return new Promise((resolve, reject) => {
     const opts = {
       method: 'get',
-      url: 'http://localhost:8080/text'
+      url: 'http://localhost:9999/text'
     }
     req(opts)
       .then(({res, body}) => {
@@ -76,7 +76,7 @@ test('text/plain (promises)', async (t) => {
 test('text/html', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/html'
+    url: 'http://localhost:9999/html'
   }
   req(opts, (err, res, body) => {
     t.error(err, 'no errors')
@@ -90,7 +90,7 @@ test('text/html', (t) => {
 test('json', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/json'
+    url: 'http://localhost:9999/json'
   }
   req(opts, (err, res, body) => {
     t.error(err, 'no errors')
@@ -104,7 +104,7 @@ test('json', (t) => {
 test('json-echo, body as object', (t) => {
   const opts = {
     method: 'post',
-    url: 'http://localhost:8080/json-echo',
+    url: 'http://localhost:9999/json-echo',
     body: {foo: 'bar'},
     headers: {
       'content-type': 'application/json'
@@ -122,7 +122,7 @@ test('json-echo, body as object', (t) => {
 test('json-echo, body as string, with header', (t) => {
   const opts = {
     method: 'post',
-    url: 'http://localhost:8080/json-echo',
+    url: 'http://localhost:9999/json-echo',
     body: '{"foo": "bar"}',
     headers: {
       'content-type': 'application/json'
@@ -140,7 +140,7 @@ test('json-echo, body as string, with header', (t) => {
 test('json-echo, body as string, no header', (t) => {
   const opts = {
     method: 'post',
-    url: 'http://localhost:8080/json-echo',
+    url: 'http://localhost:9999/json-echo',
     body: '{"foo": "bar"}'
   }
   req(opts, (err, res, body) => {
@@ -155,7 +155,7 @@ test('json-echo, body as string, no header', (t) => {
 test('octet-stream,', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/octet'
+    url: 'http://localhost:9999/octet'
   }
   req(opts, (err, res, body) => {
     t.error(err, 'no errors')
@@ -169,7 +169,7 @@ test('octet-stream,', (t) => {
 test('json-error,', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/json-error'
+    url: 'http://localhost:9999/json-error'
   }
   req(opts, (err, res, body) => {
     t.ok(err, 'got error')
@@ -184,7 +184,7 @@ test('json-error,', (t) => {
 test('bad json,', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/bad-json'
+    url: 'http://localhost:9999/bad-json'
   }
   req(opts, (err, res, body) => {
     t.ok(err, 'got error')
@@ -196,7 +196,7 @@ test('bad json,', (t) => {
 test('byte length,', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/byte-me',
+    url: 'http://localhost:9999/byte-me',
     body: {emoji: '🐒'},
     headers: {
       'content-type': 'application/json'
@@ -212,7 +212,7 @@ test('byte length,', (t) => {
 test('error,', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/beepboop'
+    url: 'http://localhost:9999/beepboop'
   }
   req(opts, (err, res, body) => {
     t.ok(err, 'got error')
@@ -227,7 +227,7 @@ test('error,', (t) => {
 test('error,', (t) => {
   const opts = {
     method: 'get',
-    url: 'http://localhost:8080/beepboop'
+    url: 'http://localhost:9999/beepboop'
   }
   req(opts)
     .then(() => {

@@ -13,8 +13,8 @@ declare type body = Buffer | string | {
     [key: string]: any;
 };
 declare type NRCB = (err: NRError | null, res: http.IncomingMessage, body: body) => void;
-declare const _default: (_opts: NROpts, cb: NRCB) => Promise<{
+export declare function nanorequest(_opts: NROpts, cb: NRCB): Promise<{
     res: http.IncomingMessage;
     body: body;
 }> | http.ClientRequest;
-export = _default;
+export {};

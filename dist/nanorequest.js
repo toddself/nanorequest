@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const http_1 = __importDefault(require("http"));
 const https_1 = __importDefault(require("https"));
 const url_1 = __importDefault(require("url"));
@@ -11,7 +12,7 @@ function json(obj) {
 function text(obj) {
     return !!(obj.headers && (String(obj.headers['content-type']).indexOf('text') > -1));
 }
-module.exports = function sendRequest(_opts, cb) {
+function nanorequest(_opts, cb) {
     let _promise = false;
     return new Promise((resolve, reject) => {
         if (typeof cb !== 'function') {
@@ -101,4 +102,5 @@ module.exports = function sendRequest(_opts, cb) {
             cb(err, res, err.message);
         }
     });
-};
+}
+exports.nanorequest = nanorequest;

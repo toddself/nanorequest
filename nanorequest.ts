@@ -23,7 +23,7 @@ interface NRError extends Error {
 type body = Buffer | string | {[key:string]: any}
 type NRCB = (err:NRError | null, res:http.IncomingMessage, body:body ) => void
 
-export = function sendRequest (_opts:NROpts, cb:NRCB):Promise<{res:http.IncomingMessage, body:body}> | http.ClientRequest {
+export function nanorequest (_opts:NROpts, cb:NRCB):Promise<{res:http.IncomingMessage, body:body}> | http.ClientRequest {
   let _promise = false
   return new Promise((resolve, reject) => {
     if (typeof cb !== 'function') {
