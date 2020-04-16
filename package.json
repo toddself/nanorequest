@@ -1,6 +1,6 @@
 {
   "name": "nanorequest",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Sometimes you just want to make a small request with a callback",
   "main": "dist/nanorequest.js",
   "files": [
