@@ -26,13 +26,13 @@ type NRCB = (err:NRError | null, res:http.IncomingMessage, body:body ) => void
 export function nanorequest (_opts:NROpts, cb?:NRCB):Promise<{res:http.IncomingMessage, body:body}> | http.ClientRequest {
   let _promise = false
   return new Promise((resolve, reject) => {
-    if (typeof cb !== 'function') {
+    if (!cb || typeof cb !== 'function') {
       _promise = true
       cb = (err:NRError | null, res:http.IncomingMessage, body:any) => {
         if (err) {
           err.res = res
           err.body = body
-          reject(err)
+          return reject(err)
         }
         resolve({res, body})
       }
@@ -110,7 +110,7 @@ export function nanorequest (_opts:NROpts, cb?:NRCB):Promise<{res:http.IncomingM
         err = new Error(`${res.statusCode}: ${res.statusMessage || 'error'}`)
       }
 
-      cb(err, res, body)
+      if (cb) cb(err, res, body)
     }
 
     function handleError (err:NRError, res:http.IncomingMessage) {
@@ -118,7 +118,7 @@ export function nanorequest (_opts:NROpts, cb?:NRCB):Promise<{res:http.IncomingM
         err = new Error(err)
       }
       res = res || {statusCode: null}
-      cb(err, res, err.message)
+      if (cb) cb(err, res, err.message)
     }
   })
 }

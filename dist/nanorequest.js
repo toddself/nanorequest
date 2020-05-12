@@ -15,13 +15,13 @@ function text(obj) {
 function nanorequest(_opts, cb) {
     let _promise = false;
     return new Promise((resolve, reject) => {
-        if (typeof cb !== 'function') {
+        if (!cb || typeof cb !== 'function') {
             _promise = true;
             cb = (err, res, body) => {
                 if (err) {
                     err.res = res;
                     err.body = body;
-                    reject(err);
+                    return reject(err);
                 }
                 resolve({ res, body });
             };
@@ -92,14 +92,16 @@ function nanorequest(_opts, cb) {
             if (res.statusCode && res.statusCode > 299) {
                 err = new Error(`${res.statusCode}: ${res.statusMessage || 'error'}`);
             }
-            cb(err, res, body);
+            if (cb)
+                cb(err, res, body);
         }
         function handleError(err, res) {
             if (!(err instanceof Error)) {
                 err = new Error(err);
             }
             res = res || { statusCode: null };
-            cb(err, res, err.message);
+            if (cb)
+                cb(err, res, err.message);
         }
     });
 }
