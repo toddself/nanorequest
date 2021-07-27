@@ -1,6 +1,6 @@
 {
   "name": "nanorequest",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "Sometimes you just want to make a small request with a callback",
   "main": "dist/nanorequest.js",
   "files": [
@@ -28,7 +28,6 @@
   ],
   "author": "Todd Kennedy <todd@selfassembled.org>",
   "license": "Apache-2.0",
-  "dependencies": {},
   "engines": {
     "node": ">=12.0.0"
   },
