@@ -1,0 +1,7 @@
+{
+  "coverage": true,
+  "branches": 80,
+  "lines": 95,
+  "functions": 100,
+  "statements": 95
+}
